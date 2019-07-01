@@ -35,7 +35,6 @@ class HomeFragment : BaseFragment(), HomeMVP.View<HomeMVP.Presenter> {
     @Inject lateinit var homePresenter: HomePresenter
     private lateinit var photoBookmark: Photo
     @Inject internal lateinit var loading: LoadingProgress
-    @Inject internal lateinit var httpLoadImageHelper: HttpLoadImageHelper
 
     private lateinit var layoutManager: LoadMoreGridLayoutManager
     private var currentPage = 1
@@ -153,7 +152,6 @@ class HomeFragment : BaseFragment(), HomeMVP.View<HomeMVP.Presenter> {
     override fun onDestroy() {
         super.onDestroy()
         homePresenter.onDestroy()
-        httpLoadImageHelper.onDestroy()
     }
 
     override fun onDestroyView() {

@@ -37,8 +37,6 @@ class BookmarkFragment : BaseFragment(), BookmarkMVP.View {
     @Inject
     internal lateinit var loading: LoadingProgress
     lateinit var layoutManager: LoadMoreGridLayoutManager
-    @Inject
-    internal lateinit var httpLoadImageHelper: HttpLoadImageHelper
     private var isRemoveClicked = false
     private var currentPage = 1
 
