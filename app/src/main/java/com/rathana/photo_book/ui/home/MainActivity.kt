@@ -2,6 +2,7 @@ package com.rathana.photo_book.ui.home
 
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.rathana.photo_book.R
 import com.rathana.photo_book.app.di.compoment.ActivityComponent
@@ -15,38 +16,43 @@ import com.rathana.photo_book.ui.home.mvp.HomePresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : BaseActivity() ,
-HomeMVP.View<HomeMVP.Presenter>{
+class MainActivity : BaseActivity(){
 
-    @Inject lateinit var homePresenter: HomePresenter
+    //@Inject lateinit var homePresenter: HomePresenter
+    internal lateinit var homeFragment: HomeFragment
+    internal lateinit var bookmarkFragment: BookmarkFragment
+    internal lateinit var settingFragment: SettingFragment
 
     override fun onInject(activityComponent: ActivityComponent) {
         activityComponent.inject(this)
     }
+    override fun setLayout(): Int =R.layout.activity_main
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        initUI();
-        homePresenter.setView(this)
-        homePresenter.getPhotos(1,30)
+        initUI(savedInstanceState)
     }
 
-    fun initUI(){
-        replaceFragment(R.id.container,HomeFragment.getInstance())
+    fun initUI(savedInstanceState: Bundle?){
+
+        homeFragment=HomeFragment.getInstance()
+        bookmarkFragment=BookmarkFragment.getInstance()
+        settingFragment= SettingFragment.getInstance()
+        val fragments= mutableListOf<Fragment>(homeFragment,bookmarkFragment,settingFragment)
+
+        addFragments(fragments,R.id.container,0)
         bottomNav?.setOnNavigationItemSelectedListener{
             when(it.itemId){
                 R.id.btnPhotoCollection->{
-                    replaceFragment(R.id.container,HomeFragment.getInstance())
+                    switchFragment(HOME_FRAGMENT ,fragment = fragments[0])
                     true
                 }
                 R.id.btnBookmark->{
-                    replaceFragment(R.id.container,BookmarkFragment.getInstance())
+                    switchFragment(BOOKMARK_FRAGMENT,fragment = fragments[1])
                     true
                 }
                 R.id.btnSetting->{
-                    replaceFragment(R.id.container,SettingFragment.getInstance())
+                    switchFragment(SETTING_FRAGMENT,fragment = fragments[2])
                     true
                 }
                 else -> false
@@ -61,19 +67,4 @@ HomeMVP.View<HomeMVP.Presenter>{
      * ===============
      */
 
-    override fun onError(smg: String) {
-        Log.e("data",""+smg)
-    }
-
-    override fun onHideLoading() {
-
-    }
-
-    override fun onShowLoading() {
-
-    }
-
-    override fun onPhotosResponse(data: MutableList<Photo>) {
-        Log.e("data",""+data)
-    }
 }

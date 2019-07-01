@@ -2,6 +2,7 @@ package com.rathana.photo_book.app.di.compoment
 
 import android.app.Application
 import android.content.Context
+import com.rathana.photo_book.app.data.local.dao.PhotoBookDatabase
 import com.rathana.photo_book.app.di.module.ActivityModule
 import com.rathana.photo_book.app.di.module.AppModule
 import com.rathana.photo_book.app.di.module.DataModule
@@ -17,7 +18,7 @@ import javax.inject.Named
 @ApplicationScope
 interface AppComponent {
 
-    fun context():Context
+    fun context():Application
 
     fun inject(application: Application)
 
@@ -27,5 +28,6 @@ interface AppComponent {
     @Named(NetworkModule.AUTH_TOKEN)
     fun retrofitIncludeAuthToken():Retrofit
 
+    fun photoBookDatabase(): PhotoBookDatabase
 
 }

@@ -23,10 +23,12 @@ class HomePresenter : HomeMVP.Presenter {
 
     override fun getPhotos(page: Int, limit: Int) {
         this.view.onShowLoading()
+        var canLoadMore=false
         val map = mutableMapOf(Pair("page",page), Pair("limit",limit))
-        homeInteractor.getPhotos(queryMap = map,response = object : HomeMVP.HomeInteractorResponse{
-            override fun onPhotosResponse(data: MutableList<Photo>) {
-                view.onPhotosResponse(data)
+        homeInteractor.getPhotos(queryMap = map,response = object : HomeMVP.HomeInteractorResponse<MutableList<Photo>>{
+            override fun onPhotosResponse(data: MutableList<Photo>?) {
+
+                view.onPhotosResponse(data!! ,canLoadMore = (limit== data!!.size) )
                 view.onHideLoading()
             }
 
@@ -38,5 +40,46 @@ class HomePresenter : HomeMVP.Presenter {
     }
 
 
+    fun loadMorePhotos(page: Int, limit: Int) {
+        val map = mutableMapOf(Pair("page",page), Pair("limit",limit))
+        homeInteractor.getPhotos(queryMap = map,response = object : HomeMVP.HomeInteractorResponse<MutableList<Photo>>{
+            override fun onPhotosResponse(data: MutableList<Photo>?) {
+                view.onLoadMorePhotos(data!! ,canLoadMore = (limit== data!!.size) )
+                view.onHideLoading()
+            }
 
+            override fun onError(smg: String) {
+                view.onError(smg)
+                view.onHideLoading()
+            }
+        })
+    }
+    override fun addBookmark(photo: Photo){
+        this.view.onShowLoading()
+        homeInteractor.addBookmark(photo,response = object : HomeMVP.HomeInteractorResponse<Int>{
+
+            override fun onError(smg: String) {
+                view.onError(smg)
+                view.onHideLoading()
+            }
+
+            override fun onPhotosResponse(t: Int?) {
+                view.onAddBookmarkSuccess(t!!)
+                view.onHideLoading()
+            }
+        })
+    }
+
+    override fun findPhoto(id: Int) {
+        homeInteractor.findPhoto(id,response = object : HomeMVP.HomeInteractorResponse<Photo>{
+            override fun onPhotosResponse(t: Photo?) {
+                view.onFindPhotoSuccess(t!!)
+            }
+
+            override fun onError(smg: String) {
+                view.onError(smg)
+                view.onPhotoEmpty()
+            }
+        })
+    }
 }

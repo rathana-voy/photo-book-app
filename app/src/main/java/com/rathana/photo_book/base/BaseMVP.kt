@@ -1,5 +1,7 @@
 package com.rathana.photo_book.base
 
+import com.rathana.photo_book.entity.Photo
+
 interface BaseMVP{
 
     interface BaseView{
@@ -12,11 +14,11 @@ interface BaseMVP{
         fun onError(smg: String)
     }
 
-    interface baseInteractor{
+    interface BaseInteractor{
         fun onDestroy()
     }
 
-    interface basePresenter{
+    interface BasePresenter{
         fun onDestroy()
     }
 }

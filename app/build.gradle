@@ -27,9 +27,10 @@ android {
 
 ext {
     dagger_version = '2.23.2'
-    retrofit_servion= '2.6.0'
-    retrofit_adapter_servion='2.3.0'
-    rxandroid2_version= '2.1.1'
+    retrofit_servion = '2.6.0'
+    retrofit_adapter_servion = '2.3.0'
+    rxandroid2_version = '2.1.1'
+    room_version = "2.1.0"
 }
 
 dependencies {
@@ -53,4 +54,15 @@ dependencies {
     //retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_servion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_servion"
+
+    //glide download image via http/https
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    implementation 'org.greenrobot:eventbus:3.1.1'
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    implementation 'com.github.markomilos:paginate:0.5.1'
 }

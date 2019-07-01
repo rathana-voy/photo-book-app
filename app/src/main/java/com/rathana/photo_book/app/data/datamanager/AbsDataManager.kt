@@ -1,11 +1,12 @@
 package com.rathana.photo_book.app.data.datamanager
 
+import com.rathana.photo_book.entity.Photo
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import java.util.*
 
 abstract class AbsDataManager<T> {
 
@@ -21,6 +22,11 @@ abstract class AbsDataManager<T> {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
+
+    fun completableRequest(observable: Completable): Completable{
+        return observable.subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 
     fun onDestroy(){
         compositeDisposable.clear()

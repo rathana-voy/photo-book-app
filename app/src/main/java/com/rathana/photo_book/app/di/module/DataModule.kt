@@ -1,6 +1,8 @@
 package com.rathana.photo_book.app.di.module
 
+import com.rathana.photo_book.app.data.datamanager.BookmarkDataManager
 import com.rathana.photo_book.app.data.datamanager.PhotoDataManger
+import com.rathana.photo_book.app.data.local.dao.PhotoBookDatabase
 import com.rathana.photo_book.app.data.service.PhotoService
 import com.rathana.photo_book.app.di.scope.ActivityScope
 import dagger.Module
@@ -24,6 +26,11 @@ class DataModule {
 
     @Provides
     @ActivityScope
-    fun providePhotoDataManager(photoService: PhotoService): PhotoDataManger=
-        PhotoDataManger(photoService)
+    fun providePhotoDataManager(photoService: PhotoService,photoBookDatabase: PhotoBookDatabase): PhotoDataManger=
+        PhotoDataManger(photoService,photoBookDatabase)
+
+    @Provides
+    @ActivityScope
+    fun provideBookmarkDataManager(photoBookDatabase: PhotoBookDatabase): BookmarkDataManager=
+        BookmarkDataManager(photoBookDatabase)
 }
