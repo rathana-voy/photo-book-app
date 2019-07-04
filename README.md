@@ -9,4 +9,4 @@ Technology & Project structure:
  
 Project Configuration: 
  - AndroidX
- - Cradle version : 3.4.1
+ - gradle version : 3.4.1
